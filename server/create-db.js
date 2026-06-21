@@ -1,4 +1,6 @@
 const mysql = require('mysql2/promise');
+const fs = require('fs');
+const path = require('path');
 require('dotenv').config();
 
 async function createDatabase() {
@@ -15,7 +17,7 @@ async function createDatabase() {
         
         await connection.query(`USE \`${process.env.DB_NAME}\`;`);
         
-        const initSql = require('fs').readFileSync('./init.sql', 'utf8');
+        const initSql = fs.readFileSync(path.join(__dirname, '..', 'init.sql'), 'utf8');
         // Simple split by ; - might be fragile but should work for this init.sql
         const statements = initSql.split(';').filter(s => s.trim());
         
