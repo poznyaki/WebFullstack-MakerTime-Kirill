@@ -1,0 +1,32 @@
+services:
+  postgres:
+    image: postgres:16
+    platform: linux/amd64
+    container_name: music_db
+    restart: always
+    environment:
+      POSTGRES_DB: music
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: secret
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./server/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+server:
+    build:
+      context: .                 # Змінюємо контекст на корінь, де лежать node_modules та package.json
+      dockerfile: Dockerfile     # Вказуємо, що Dockerfile брати з кореня
+    platform: linux/amd64
+    container_name: music_server
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:

@@ -1,0 +1,13 @@
+{
+  "name": "webfullstack_makertime-main",
+  "version": "1.0.0",
+  "description": "Music Platform Maker Time Project",
+  "scripts": {
+    "install-all": "npm install && cd client && npm install && cd ../server && npm install",
+    "dev": "concurrently \"npm run dev --prefix client\" \"npm run dev --prefix server\"",
+    "start": "cd server && npm start"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
